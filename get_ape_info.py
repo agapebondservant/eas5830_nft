@@ -3,6 +3,7 @@ from web3.providers.rpc import HTTPProvider
 from web3.middleware import ExtraDataToPOAMiddleware
 import requests
 import json
+import traceback
 
 bayc_address = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
 contract_address = Web3.to_checksum_address(bayc_address)
@@ -37,23 +38,20 @@ def get_ape_info(ape_id):
     data = {'owner': "", 'image': "", 'eyes': ""}
 
     # YOUR CODE HERE
-    owner = contract.functions.ownerOf.call(ape_id) 
-    tokenURI = contract.functions.tokenURI.call(ape_id) 
-    _, _, tokenCID = tokenURI.partition("ipfs://")
-    imageMetadata = get_from_ipfs(tokenCID)
-    print(imageMetadata)
-    data = {'owner': owner, 'image': tokenURI, 'eyes': imageMetadata['eyes']}
+    try:
+        owner = contract.functions.ownerOf.call(ape_id) 
+        tokenURI = contract.functions.tokenURI.call(ape_id) 
+        _, _, tokenCID = tokenURI.partition("ipfs://")
+        imageMetadata = get_from_ipfs(tokenCID)
+        print(imageMetadata)
+        data = {'owner': owner, 'image': tokenURI, 'eyes': imageMetadata['eyes']}
 
-    assert isinstance(data, dict), f'get_ape_info{ape_id} should return a dict'
-    assert all([a in data.keys() for a in
-                ['owner', 'image', 'eyes']]), f"return value should include the keys 'owner','image' and 'eyes'"
-    return data
-
-def util():
-    url = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
-    body = {"pinataOptions": {"cidVersion": 1}, "pinataContent": data}
-    response = requests.post(url, json=body, headers={"Authorization": f"Bearer {jwt}"})
-    return response.json()['IpfsHash']
+        assert isinstance(data, dict), f'get_ape_info{ape_id} should return a dict'
+        assert all([a in data.keys() for a in
+                    ['owner', 'image', 'eyes']]), f"return value should include the keys 'owner','image' and 'eyes'"
+        return data
+    except:
+        traceback.print_exc()
 
 def get_from_ipfs(cid,content_type="json"):
     assert isinstance(cid,str), f"get_from_ipfs accepts a cid in the form of a string"
