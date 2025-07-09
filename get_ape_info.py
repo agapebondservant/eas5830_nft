@@ -39,8 +39,8 @@ def get_ape_info(ape_id):
 
     # YOUR CODE HERE
     try:
-        owner = contract.functions.ownerOf.call(ape_id) 
-        tokenURI = contract.functions.tokenURI.call(ape_id) 
+        owner = contract.functions.ownerOf(ape_id).call() 
+        tokenURI = contract.functions.tokenURI(ape_id).call() 
         _, _, tokenCID = tokenURI.partition("ipfs://")
         imageMetadata = get_from_ipfs(tokenCID)
         print(imageMetadata)
