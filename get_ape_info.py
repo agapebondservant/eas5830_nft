@@ -16,7 +16,7 @@ with open('ape_abi.json', 'r') as f:
     abi = json.load(f)
 
 
-url = "https://testnet.infura.io/v3/af83c96cc0ff485bb901f9ed92726df3"
+url = "https://mainnet.infura.io/v3/af83c96cc0ff485bb901f9ed92726df3"
 w3 = Web3(HTTPProvider(url))
 # w3.middleware_onion.add(ExtraDataToPOAMiddleware)
 contract = w3.eth.contract(address=contract_address, abi=abi)
