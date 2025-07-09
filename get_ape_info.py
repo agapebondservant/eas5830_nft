@@ -44,7 +44,7 @@ def get_ape_info(ape_id):
         _, _, tokenCID = tokenURI.partition("ipfs://")
         imageMetadata = get_from_ipfs(tokenCID)
         # print(imageMetadata)
-        image = attribute.get('image')
+        image = imageMetadata.get('image')
         for attribute in imageMetadata.get('attributes',{}):
             if attribute.get('trait_type') == 'Eyes':
                 eyes = attribute.get('value')
