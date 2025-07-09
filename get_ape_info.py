@@ -44,11 +44,12 @@ def get_ape_info(ape_id):
         _, _, tokenCID = tokenURI.partition("ipfs://")
         imageMetadata = get_from_ipfs(tokenCID)
         print(imageMetadata)
+        image = attribute.get('image')
         for attribute in imageMetadata.get('attributes',{}):
             if attribute.get('trait_type') == 'Eyes':
                 eyes = attribute.get('value')
                 break
-        data = {'owner': owner, 'image': tokenURI, 'eyes': eyes}
+        data = {'owner': owner, 'image': image, 'eyes': eyes}
 
         assert isinstance(data, dict), f'get_ape_info{ape_id} should return a dict'
         assert all([a in data.keys() for a in
