@@ -43,7 +43,7 @@ def get_ape_info(ape_id):
         tokenURI = contract.functions.tokenURI(ape_id).call() 
         _, _, tokenCID = tokenURI.partition("ipfs://")
         imageMetadata = get_from_ipfs(tokenCID)
-        print(imageMetadata)
+        # print(imageMetadata)
         image = attribute.get('image')
         for attribute in imageMetadata.get('attributes',{}):
             if attribute.get('trait_type') == 'Eyes':
